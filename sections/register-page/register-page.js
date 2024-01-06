@@ -1,26 +1,3 @@
-function checkFormValidity() {
-    const inputs = document.querySelectorAll("input[required]");
-    let isValid = true;
-    inputs.forEach(input => {
-        if (input.value === "") {
-            isValid = false;
-        }
-    })
-
-    if (isValid) {
-        registerUser();
-    }
-    else {
-        alert("Please filled out all necessary field !!")
-    }
-}
-
-document.querySelector('form').addEventListener('submit', event => {
-    event.preventDefault();
-    registerUser();
-})
-
-
 function registerUser() {
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;

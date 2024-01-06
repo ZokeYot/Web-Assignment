@@ -1,18 +1,6 @@
-function checkFormValidity() {
-    const inputs = document.querySelectorAll("input[required]");
-    let isValid = true;
-    inputs.forEach(input => {
-        if (input.value === "") {
-            isValid = false;
-        }
-    })
-    if (isValid) {
-        login();
-    }
-    else {
-        alert("Please filled out all necessary field !!");
-    }
-}
+document.querySelector('form').addEventListener('submit', event => {
+    event.preventDefault();
+})
 
 function login() {
     const email = document.getElementById("email");
@@ -48,8 +36,6 @@ function login() {
                     alert("User not found");
                     email.value = "";
                     password.value = "";
-
-
             }
         })
 }

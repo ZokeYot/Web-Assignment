@@ -6,13 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="post">
+    <form onsubmit="login()" method="post">
         <label for="email">Email Address: </label>
         <input id="email" name="email" type="email" placeholder="Email Address" required>
         <label for="password">Password: </label>
         <input id="password" name="password"type="password" placeholder="Passowrd" required>
         <p id="pass-error" hidden>Wrong Password</p>
-        <button type="button" onclick="checkFormValidity()">Login</button>   
+        <button>Login</button>   
         <a href="../register-page/register-page.html">Don't have an account yet? Register Here</a>
     </form>
     <script src="./login-page.js"></script>

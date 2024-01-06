@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./register-page.css">
 </head>
 <body>
-    <form id="register-form" method="post">
+    <form onsubmit=registerUser() id="register-form" method="post">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" name="name" id="name" placeholder="Enter your name" required >
@@ -48,7 +48,7 @@
             <textarea id="description" name="description" placeholder="Tell us more about you"></textarea>
         </div>
 
-        <button type="button" onclick="checkFormValidity()">Register</button>
+        <button type="submit">Register</button>
         <a href="../login-page/login-page.html">Already have account? Login Here</a>
     </form>    
     <script src="register-page.js"></script>
