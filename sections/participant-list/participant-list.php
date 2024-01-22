@@ -16,7 +16,6 @@
         $activity_id = $_GET['id'];
         $query = "SELECT User_ID, Name, Email_Address, Gender,DOB,User_Description,Profile_Picture_Link FROM user where User_ID in (select User_ID from activity_participants where Activity_ID = '$activity_id')";
         $sql = $con->query($query);
-        $json = array();
         while ($row = $sql->fetch_assoc()) {
             $id = $row["User_ID"];
             $name = $row["Name"];

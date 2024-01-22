@@ -43,12 +43,14 @@
         font-size: 16px;
     }
 
-    .forgot-password a, .register a {
+    .forgot-password a,
+    .register a {
         color: blue;
         text-decoration: none;
     }
 
-    .forgot-password a:hover, .register a:hover {
+    .forgot-password a:hover,
+    .register a:hover {
         text-decoration: underline;
     }
 
@@ -73,12 +75,13 @@
     }
 </style>
 </head>
+
 <body>
     <main>
         <div class="header">
             <p>ServeConnect</p>
         </div>
-        <form action="main-page.html" method="post">
+        <form action="" method="post">
             <h1>WELCOME</h1>
             <div>
                 <input name="user_email" type="email" value="" placeholder="Email">
@@ -90,12 +93,43 @@
                 <input type="submit" name="login" value="Login">
             </div>
             <div class="forgot-password">
-                <a href="forget_password.html">Forgot Password</a>
+                <a href="../forgot-password/forgot-password.php">Forgot Password</a>
             </div>
             <div class="register">
-                <p class="register-text">Don't have an account? <a href="register.html">Register</a></p>
+                <p class="register-text">Don't have an account? <a href="../register/register.php">Register</a></p>
             </div>
         </form>
     </main>
 </body>
+
 </html>
+<?php
+
+include("../../php/db_connection.php");
+
+function userCredential($email, $password, $con)
+{
+    $validateUser = "SELECT * FROM user where Email_Address = '$email'";
+    $sql = $con->query($validateUser);
+    $row = $sql->fetch_assoc();
+    if (!$row) {
+        echo "<script>alert('User not found')</script>";
+        return;
+    }
+    if ($row['Password'] !== $password) {
+        echo "<script>alert('Invalid Password')</script>";
+        return;
+    }
+    echo "
+    <script>
+        alert('Welcome');  
+        window.location.href = '../main-page/main-page.html'                             
+    </script>";
+}
+
+if (isset($_POST['login'])) {
+    $email = $_POST['user_email'];
+    $password = $_POST['user_password'];
+
+    userCredential($email, $password, $con);
+}
