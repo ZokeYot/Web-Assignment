@@ -1,0 +1,25 @@
+.table-cell {
+    padding: 20px;
+    width: fit-content;
+    text-align: center;
+    height: fit-content;
+}
+
+#details-button,
+#join-button {
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+}
+
+#join-button {
+    background-color: rgb(36, 246, 36);
+
+}
+
+#details-button {
+    background-color: blue;
+}

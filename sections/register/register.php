@@ -73,6 +73,7 @@
     }
 </style>
 </head>
+
 <body>
     <main>
         <div class="header">
@@ -80,19 +81,53 @@
         </div>
         <form action="main-page.html" method="post">
             <h1>WELCOME</h1>
+
             <div>
-                <input name="user_email" type="email" value="" placeholder="Email">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your Name">
             </div>
+
             <div>
-                <input name="user_password" type="password" value="" placeholder="Password">
+                <label for="email">Email</label>
+                <input name="user_email" type="email" id="email" placeholder="Your Email">
             </div>
+
+            <div>
+                <label for="password"></label>
+                <input name="user_password" type="password" id="password" placeholder="Create Password">
+            </div>
+
+            <div>
+                <select type="gender" name="gender" id="gender">
+                    <option value="">Please select your gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="prefer not to say">Prefer Not to Say</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="dob">
+                    <input type="date" name="dob" id="dob">
+            </div>
+
+            <div>
+                <label for="description">Introduce Yourself</label>
+                <textarea name="description" id="description">Let us know more about you</textarea>
+            </div>
+
+
+
             <div>
                 <input type="submit" name="register" value="Register">
             </div>
+
+
             <div class="login">
                 <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
             </div>
         </form>
     </main>
 </body>
+
 </html>
