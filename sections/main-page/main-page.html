@@ -1,42 +1,217 @@
+<title>Main Page</title>
+<style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 170vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ServeConnect</title>
-    <link rel="stylesheet" href="main-page.css">
+    main {
+        text-align: center;
+    }
+
+    form {
+        width: 280px;
+        margin: auto;
+        background: #f4f4f4;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    h1 {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    input[type="submit"] {
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .login a {
+        color: blue;
+        text-decoration: none;
+    }
+
+    .login a:hover {
+        text-decoration: underline;
+    }
+
+    .login a {
+        margin-left: 10px;
+    }
+
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+        padding: 10px;
+        height: 80px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        text-align: center;
+        color: white;
+        font-size: 40px;
+    }
+
+    .searchBar {
+        position: fixed;
+        color: rgba(0, 0, 0);
+        background-color: white;
+        left: 450px;
+        height: 45px;
+        width: 800px;
+        margin-left: 20px;
+        margin-top: 10px;
+        border-radius: 50px;
+        font-size: 30px;
+    }
+    
+    .searchIcon {
+        margin-left: 150px;
+        z-index: 1;
+    }
+    
+    .accIcon {
+        margin-left: 817px;
+        z-index: 1;
+    }
+
+    .AccountButton {
+        position: fixed;
+        border-radius: 50px;
+        height: 45px;
+        width: 150px;
+        color: rgba(0, 0, 0, 0.8);
+        background-color: white;
+        border-width: 0px;
+        font-size: 15px;
+        text-align: center;
+        margin-left: -34px;
+        margin-top: -25px;
+    }
+
+    .NormText {
+        text-align: left;
+        font-size: 24px;
+        margin-left: 20px;
+    }
+
+    /*PLACEHOLDER IMAGES*/
+    .placeholderImg {
+        width: 1500px;
+        height: 450px;
+        align-items: center;
+    }
+    .placeholderImgSmall {
+        width: 450;
+        height: 300px;
+        align-items: center;
+    }
+    
+    .box {
+        width: 450px;
+        height: 300px;
+        float: left;
+        padding: 10px;
+        margin: 10px;
+        border: 1px #000000 solid;
+        font-size: 15px;
+        text-align: left;
+    }
+
+    .button2 {
+        border-radius: 50px;
+        height: 50px;
+        width: 210px;
+        font-size: 17px;
+        border-width: 0px;
+        background-color: rgb(220, 220, 220);
+    }
+
+    .section {
+        border-width: 0px;
+        height: 50px;
+        width: 120px;
+        font-size: 17px;
+        font-weight: bold;
+        color: #000000;
+        background-color: rgba(0,0,0,0);
+        float: right;
+    }
+</style>
 </head>
 <body>
-    <header>
-        <h2 id="logo"><a id="home" href="main-page.html">ServeConnect</a></h2>
-        <svg id="company_logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 75" x="0px" y="0px"><a id="home" href="main-page.html">
-            <title>UXUI (NOUNPROJECT)</title>
-            <path d="M30,25a6.994,6.994,0,1,1,3.90918-1.19043A6.95021,6.95021,0,0,1,30,25Zm0-12a5.00143,5.00143,0,0,0-2.79,9.15137,5.08852,5.08852,0,0,0,5.5791.001A5.00163,5.00163,0,0,0,30,13Z" fill="white" stroke="white" stroke-width="0.2"/>
-            <path d="M16,49a7.00248,7.00248,0,1,1,7-7A7.00848,7.00848,0,0,1,16,49Zm0-12a4.98887,4.98887,0,1,0,2.43945.63086A5.00588,5.00588,0,0,0,16,37Z" fill="white" stroke="white" stroke-width="0.2"/>
-            <path d="M44,49a7,7,0,1,1,7-7A7.00848,7.00848,0,0,1,44,49Zm0-12a5,5,0,1,0,5,5A5.02384,5.02384,0,0,0,44,37Z" fill="white" stroke="white" stroke-width="0.2"/>
-            <path d="M18.92871,37.75977a1,1,0,0,1-.87109-1.48926l7.7207-13.7793a.99994.99994,0,1,1,1.74414.97852L19.80176,37.249A.9974.9974,0,0,1,18.92871,37.75977Z" fill="white" stroke="white" stroke-width="0.2"/>
-            <path d="M41.07129,37.75977a.9974.9974,0,0,1-.873-.51075l-7.7207-13.77929a.99994.99994,0,0,1,1.74414-.97852l7.7207,13.7793a1,1,0,0,1-.87109,1.48926Z" fill="white" stroke="white" stroke-width="0.2"/>
-            <path d="M38,43H22a1,1,0,0,1,0-2H38a1,1,0,0,1,0,2Z" fill="white" stroke="white" stroke-width="0.2"/>
-        </a></svg>
-        
-        <input type="search" class="search_bar" id="main_search" name="main_search">
-        <a href="profile.html"><input type="button" class="account_button" id="account_button" name="account_button" value="Account"></a>
-    </header>
-        <nav class="navbar">
-            <ul><b>
-                <li><a href="about.html">About us</a></li>
-                <li><a href="manage.html">Manage</a></li>
-                <li><a href="/sections/create-activity/create-activity.html">Create</a></li>
-                <li><a href="activities.html">Activities</a></li>
-                <li><a href="chat.html">Chat</a></li>
-            </ul></b>
-        </nav>   
-    </div>
-
     <main>
-
+        <div class="header">
+            <p>ServeConnect</p>
+            <img src="images/SC_Logo.png" width="70px" height="70px" alt="SV_Logo">
+            <img src="images/SearchIcon.png" width="25px" height="25px" alt="Search" class="searchIcon">
+            <input name="search" type="text" value="" class="searchBar"> 
+            <img src="images/AccountLogo.png" width="25px" height="30px" alt="Search" class="accIcon">
+            <a href="profile.html">
+                <button type="button" class="AccountButton">ACCOUNT</button>
+            </a>
+        </div>
+        <br>
+        <div>
+            <a href="chat.html">
+               <button type="button" class="section">Chat</button> 
+            </a>
+            <a href="activities.html">
+               <button type="button" class="section">Activities</button> 
+            </a>
+            <a href="create.html">
+               <button type="button" class="section">Create</button> 
+            </a>
+            <a href="manage.html">
+               <button type="button" class="section">Manage</button> 
+            </a>
+            <a href="aboutUs.html">
+               <button type="button" class="section">About Us</button> 
+            </a>
+        </div>
+        <div>
+            <img src="images/VectorEmpty.png" class="placeholderImg">
+        </div>
+        <br>
+        <p class="NormText" text-align="left">Activities</p>
+        <hr style="height:2px;border-width:0;color:black;background-color:black">
+        <br>
+        <div class="box">
+            <img src="images/VectorEmpty.png" class="placeholderImgSmall">
+        </div>
+        <div class="box">
+            <img src="images/VectorEmpty.png" class="placeholderImgSmall">
+        </div>
+        <div class="box">
+            <img src="images/VectorEmpty.png" class="placeholderImgSmall">
+        </div>
+        <br>
+        <a href="activities.html">
+            <button class="button2">
+                View More
+            </button>
+        </a>
+        <br><br>
     </main>
 </body>
 </html>
-
