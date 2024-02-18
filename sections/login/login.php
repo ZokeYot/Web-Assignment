@@ -11,6 +11,7 @@
 
     main {
         text-align: center;
+        order: 2;
     }
 
     form {
@@ -73,6 +74,39 @@
         color: white;
         font-size: 40px;
     }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .errorMsg {
+        order: 1;
+        box-sizing: border-box;
+        text-align: center;
+        width: 320px;
+        padding: 20px 80px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+        border: 2px solid red;
+        background-color: #ffaeae;
+        font-size: large;
+        animation-name: comeIn;
+        animation-duration: 1s;
+    }
+
+    @keyframes comeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+
+        }
+
+        to {
+            opacity: 1;
+
+        }
+    }
 </style>
 </head>
 
@@ -81,7 +115,7 @@
         <div class="header">
             <p>ServeConnect</p>
         </div>
-        <form action="" method="post">
+        <form method="post">
             <h1>WELCOME</h1>
             <div>
                 <input name="user_email" type="email" value="" placeholder="Email">
@@ -103,33 +137,33 @@
 </body>
 
 </html>
+
 <?php
-
 include("../../php/db_connection.php");
-
-function userCredential($email, $password, $con)
-{
-    $validateUser = "SELECT * FROM user where Email_Address = '$email'";
-    $sql = $con->query($validateUser);
-    $row = $sql->fetch_assoc();
-    if (!$row) {
-        echo "<script>alert('User not found')</script>";
-        return;
-    }
-    if ($row['Password'] !== $password) {
-        echo "<script>alert('Invalid Password')</script>";
-        return;
-    }
-    echo "
-    <script>
-        alert('Welcome');  
-        window.location.href = '../main-page/main-page.html'                             
-    </script>";
-}
-
 if (isset($_POST['login'])) {
     $email = $_POST['user_email'];
     $password = $_POST['user_password'];
 
-    userCredential($email, $password, $con);
+    $validateUser = "SELECT * FROM user where Email_Address = '$email'";
+    $sql = $con->query($validateUser);
+    $row = $sql->fetch_assoc();
+
+
+    if (!$row) {
+        echo "
+        <div class = 'errorMsg animation'>User Not Found</div>
+        ";
+        return;
+    }
+    if ($row['Password'] !== $password) {
+        echo
+        " <div div class = 'errorMsg animation' >Incorrect Password</div>";
+        return;
+    }
+    echo  "
+        <script>
+        alert('Welcome');  
+        window.location.href = '../main-page/main-page.html'                             
+    </script>";
 }
+?>

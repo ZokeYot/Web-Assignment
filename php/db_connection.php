@@ -6,5 +6,5 @@ $password = "";
 $con = mysqli_connect($host, $username, $password, $dbName);
 // Check connection (optional)
 if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    echo "Failed to connect to MsesySQL: " . mysqli_connect_error();
 }

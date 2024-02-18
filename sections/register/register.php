@@ -1,77 +1,78 @@
-<title>Register Form</title>
-<style>
-    body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-        font-family: Arial, sans-serif;
-    }
+<?php
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
+include("../../php/db_connection.php");
 
-    main {
-        text-align: center;
-    }
+if (isset($_POST['register'])) {
+    try {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $gender = $_POST['gender'];
+        $dob = $_POST['dob'];
+        $description = $_POST['description'];
+        $blob_img = file_get_contents('../../pic/default-pic.jpg');
 
-    form {
-        width: 280px;
-        margin: auto;
-        background: #f4f4f4;
-        padding: 20px;
-        border-radius: 8px;
-    }
 
-    h1 {
-        font-size: 30px;
-        margin-bottom: 20px;
-    }
+        $query = "INSERT INTO user(Name,Email_Address,Gender,Password,DOB,User_Description,Profile_Picture)
+        Values('$name' , '$email' , '$gender' , '$password' , '$dob' , '$description' , ?)";
 
-    input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        text-align: center;
-    }
+        $stmt = mysqli_prepare($con, $query);
+        $stmt->bind_param('s', $blob_img);
+        $stmt->execute();
+        $result = $stmt->affected_rows;
 
-    input[type="submit"] {
-        background-color: black;
-        color: white;
-        cursor: pointer;
-        font-size: 16px;
+        if ($result == 1) {
+            echo "
+            <script>
+                    alert('Welcome $name');
+                    window.location.href= '../../index.html';
+            </script>";
+        } else {
+            echo 'Could Not Upload liao';
+        }
+    } catch (Exception $e) {
+        $messagesHtml = "<div class='error-messages'>" . $e->getMessage() . "</div>";
     }
+}
 
-    .login a {
-        color: blue;
-        text-decoration: none;
-    }
+if (isset($_POST['login'])) {
+    try {
+        $email = $_POST['login_email'];
+        $password = $_POST['login_password'];
 
-    .login a:hover {
-        text-decoration: underline;
-    }
+        $validateUser = "SELECT * FROM user where Email_Address = '$email'";
+        $sql = $con->query($validateUser);
+        $row = $sql->fetch_assoc();
 
-    .login a {
-        margin-left: 10px;
+        if (!$row) {
+            echo "
+            <div class = 'errorMsg animation'>User Not Found</div>
+            ";
+            exit();
+        }
+        if ($row['Password'] !== $password) {
+            echo
+            " <div div class = 'errorMsg animation' >Incorrect Password</div>";
+            exit();
+        }
+        echo  "
+        <script>
+        alert('Welcome');  
+        window.location.href = '../main-page/main-page.html'                             
+    </script>";
+    } catch (Exception $e) {
+        echo $e->getMessage();
     }
+}
 
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: black;
-        padding: 10px;
-        height: 80px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: white;
-        font-size: 40px;
-    }
-</style>
+?>
+
+<html>
+
+<head>
+    <title>Register Form</title>
+    <link rel="stylesheet" href="register.css">
 </head>
 
 <body>
@@ -79,55 +80,125 @@
         <div class="header">
             <p>ServeConnect</p>
         </div>
-        <form action="main-page.html" method="post">
-            <h1>WELCOME</h1>
 
-            <div>
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" placeholder="Your Name">
+        <div class="flip">
+            <div class="flip-inner">
+                <div class="register">
+                    <div class="form-container">
+                        <form class='register-form' action="" method="post" enctype="multipart/form-data" onsubmit="return CheckPassword()">
+                            <h1 style="margin-bottom:50px;">WELCOME</h1>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input class="form-input" type="text" name="name" id="name" required>
+                                    <label class="form-label" for="name">Name</label>
+                                    <div class="underline"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="form-input" type="email" name="email" id="email" required>
+                                    <label class="form-label" for="email">Email Address</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input class="form-input" type="password" name="password" id="password" oninput="CheckPassword()" required>
+                                    <label class="form-label" for="password">Create Password</label>
+                                    <div class="underline"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="form-input" type="password" name="re_password" id="re_password" oninput=CheckPassword() required>
+                                    <label class="form-label" for="re_password">Enter Password Again</label>
+                                    <div class="underline"></div>
+                                    <p id="password-error" class="hidden">Password Does Not Match</p>
+                                </div>
+                            </div>
+
+                            <div class=form-row>
+                                <div class="form-group">
+                                    <label class="form-label" style='top:-20px' for="dob">Date Of Birth</label>
+                                    <input class="form-input" type="date" name="dob" id="dob" placeholder="" required>
+                                    <div class="underline"></div>
+                                </div>
+
+                                <div class="gender">
+                                    <label for="option1" style="position:absolute;top:-20">Select Your Gender</label>
+                                    <div class="options">
+                                        <input type="radio" name="gender" id="option1">
+                                        <label for="option1">Male</label>
+                                    </div>
+
+                                    <div class="options">
+                                        <input type="radio" name="gender" id="option2">
+                                        <label for="option2">Female</label>
+                                    </div>
+
+                                    <div class="options">
+                                        <input type="radio" name="gender" id="option3">
+                                        <label for="option3">Prefer Not to say</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group" style="width: 90%;">
+                                    <textarea class="form-input" style="resize:none;height:70px;padding-top:10px;" name="description" id="description" required></textarea>
+                                    <div class="underline" style="top:65px;left:-340px"></div>
+                                    <label class="form-label" style='top:-20px' for="descripton">Introduce About Yourself</label>
+
+                                </div>
+                            </div>
+
+
+                            <u><a class="flip-button" onclick=" flipPage()">Log in</a></u>
+                            <button class='submit-button' name="register">Register</button>
+
+                        </form>
+                        <div>
+                            <?php echo isset($messagesHtml) ? $messagesHtml : "" ?>
+                            <p id="errorMsg"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login">
+                    <div class="form-container">
+                        <form class='login-form' action="" method="post" enctype="multipart/form-data">
+                            <h1 style="margin-bottom: 50px;">WELCOME BACK</h1>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input class="form-input" type="email" name="login_email" id="login_email" required>
+                                    <label class="form-label" for="login_email">Email Address</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input class="form-input" type="password" name="login_password" id="login_password" required>
+                                    <label class="form-label" for="login_password">Password</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+
+
+
+                            <button class='submit-button' name="login">Log in</button>
+                            <u> <a class="flip-button" onclick="flipPage()">Register</a></u>
+
+
+                        </form>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div>
-                <label for="email">Email</label>
-                <input name="user_email" type="email" id="email" placeholder="Your Email">
-            </div>
-
-            <div>
-                <label for="password"></label>
-                <input name="user_password" type="password" id="password" placeholder="Create Password">
-            </div>
-
-            <div>
-                <select type="gender" name="gender" id="gender">
-                    <option value="">Please select your gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="prefer not to say">Prefer Not to Say</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="dob">
-                    <input type="date" name="dob" id="dob">
-            </div>
-
-            <div>
-                <label for="description">Introduce Yourself</label>
-                <textarea name="description" id="description">Let us know more about you</textarea>
-            </div>
-
-
-
-            <div>
-                <input type="submit" name="register" value="Register">
-            </div>
-
-
-            <div class="login">
-                <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
-            </div>
-        </form>
     </main>
+    <script src="register.js"></script>
 </body>
 
 </html>
