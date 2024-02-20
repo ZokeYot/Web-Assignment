@@ -1,0 +1,325 @@
+body {
+    background-image: url('../../pic//profile-bg.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.user-profile {
+    padding-left: 50px;
+    padding-top: 30px;
+    width: 20%;
+}
+
+.detail label {
+    font-weight: bold;
+}
+
+.detail {
+    width: 70%;
+    padding: 50px 0px
+}
+
+#image {
+    width: 200px;
+    height: 200px;
+    border: 2px solid lightgray;
+    border-radius: 50%;
+    padding: 20px;
+}
+
+main {
+    display: flex;
+    position: relative;
+}
+
+
+.edit {
+    background-image: linear-gradient(to right, #02AAB0 0%, #00CDAC 51%, #02AAB0 100%);
+    box-shadow: 0 0 20px #eee;
+    color: white;
+    border-radius: 10px;
+    background-size: 200% auto;
+    transition: 0.5s;
+    text-align: center;
+    text-transform: uppercase;
+    position: absolute;
+    padding: 10px 20px;
+    right: 30px;
+    top: 20px;
+    border: none
+}
+
+.edit:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transform: translateY(-5px);
+}
+
+
+.event-container img {
+    width: 400px;
+    height: 200px;
+}
+
+.event-container {
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: lightgray;
+    width: 650px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    margin: 20px 5px
+}
+
+#events {
+    height: 700px;
+    width: 800px;
+    margin: 20px 0;
+    overflow: scroll;
+    position: relative;
+}
+
+#events::-webkit-scrollbar {
+    display: none;
+}
+
+.event-container img {
+    width: 400px;
+    height: 200px;
+}
+
+.event-container {
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: lightgray;
+    width: 650px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    margin: 20px 5px
+}
+
+.blur {
+    filter: blur(5px);
+}
+
+.event-container:hover {
+    transform: translateY(-10px);
+    opacity: 1;
+    background-color: white;
+    font-weight: bold;
+    filter: none;
+
+}
+
+main {
+    padding: 50px 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+
+.event-detail {
+    display: flex;
+    align-items: center;
+    width: 80%;
+}
+
+.gone {
+    display: none;
+}
+
+.event-detail img {
+    margin: 20px 50px;
+    width: 600px;
+    height: 400px;
+}
+
+.event-detail div {
+    margin: 30px 0px;
+    height: 100%;
+    width: 600px;
+    position: relative;
+
+}
+
+.event-detail button {
+    position: absolute;
+    background-image: linear-gradient(to right, #16A085 0%, #F4D03F 51%, #16A085 100%);
+    right: -100px;
+    padding: 10px;
+    top: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: rgb(141, 246, 246);
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    border: none
+}
+
+.event-detail button:hover {
+    background-position: right center;
+    font-weight: bold;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(0%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(0%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.container {
+    background-color: white;
+    position: fixed;
+    transition: opacity 2s, transform 2s;
+    animation: slideIn 1s ease forwards;
+    top: 60%;
+    left: 10%;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    overflow: scroll;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.participant-list {
+    margin: 20px 50px;
+}
+
+.participant {
+    margin: 30px 0;
+    display: flex;
+}
+
+.participant img {
+    width: 50px;
+    height: 50px;
+    margin-right: 30px;
+}
+
+
+#logout {
+    background-image: linear-gradient(to right, #D31027 0%, #EA384D 51%, #D31027 100%);
+    padding: 10px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none
+}
+
+#logout:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logout {
+    width: 40%;
+    height: 60%;
+    opacity: 0;
+    transition: opacity 2s, transform 2s;
+    position: fixed;
+    background-image: url('../../pic/bye.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.logout button {
+    padding: 20px 70px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    border: none;
+    font-size: x-large;
+}
+
+.logout p {
+    text-align: center;
+    display: block;
+    margin-top: 100px;
+    font-size: xx-large;
+    font-weight: bold;
+    background: linear-gradient(to right, blue, red);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+#logout-no {
+    background-image: linear-gradient(to right, #D31027 0%, #EA384D 51%, #D31027 100%);
+
+}
+
+#logout-no:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-10px);
+    font-weight: bold;
+}
+
+#logout-yes {
+    background-image: linear-gradient(to right, #02AAB0 0%, #00CDAC 51%, #02AAB0 100%);
+}
+
+#logout-yes:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-10px);
+    font-weight: bold;
+}
+
+
+.reminder {
+    background-color: white;
+    animation: slideIn 1s ease forwards;
+    top: 60%;
+    left: 30%;
+}
+
+#buttons {
+    margin: 80px auto;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#title {
+    background: linear-gradient(to right, blue, red);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    position: absolute;
+    top: 0;
+    left: 550px
+}

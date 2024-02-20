@@ -1,4 +1,4 @@
-header{
+header {
     background-color: black;
     padding-top: 2px;
 }
@@ -15,7 +15,7 @@ header{
     padding: 0%;
 }
 
-#company_logo{
+#company_logo {
     width: 76px;
     padding: 0%;
     margin-left: 287px;
@@ -27,18 +27,18 @@ header{
     top: -10px;
 }
 
-#home{
+#home {
     text-decoration: none;
     list-style-type: none;
     color: #FFF;
 }
 
-body{
+body {
     margin: 0;
 }
 
 
-#main_search{
+#main_search {
     width: 1000px;
     height: 35px;
     flex-shrink: 0;
@@ -50,7 +50,7 @@ body{
 }
 
 
-#account_button{
+#account_button {
     background: #ffffff;
     border-radius: 31px;
     border: 1px, solid black;
@@ -61,9 +61,7 @@ body{
     margin-left: 10px;
 }
 
-
-
-.navbar ul{
+.navbar ul {
     list-style-type: none;
     background-color: black;
     overflow: hidden;
@@ -72,15 +70,34 @@ body{
     z-index: 99;
 }
 
-.navbar li{
+.navbar li {
     float: right;
 }
 
-.navbar a{
+.navbar a {
     text-decoration: none;
     display: block;
     color: #FFF;
     padding-left: 39px;
     padding-right: 39px;
     font-size: 17px;
+}
+
+#account_button {
+    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px black;
+    border-radius: 10px;
+    border: none
+}
+
+
+#account_button:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
 }
