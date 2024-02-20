@@ -1,27 +1,26 @@
 <?php
-
-include("../../php/db_connection.php");
 session_start();
-$user_id = $_SESSION['id'];
+include('../../php/db_connection.php');
 $isAdmin = $_SESSION['admin'];
-$query = "SELECT * FROM activity join user on Organizer_ID = user.User_ID where Organizer_ID != '$user_id'";
-$sql = $con->query($query);
-?>
 
+$query = "SELECT * FROM activity JOIN user ON activity.Organizer_ID = user.User_ID ORDER BY Activity_ID DESC LIMIT 3";
+$sql = $con->query($query);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="activity-list.css">
+    <title>ServeConnect</title>
+    <link rel="stylesheet" href="main-page.css">
     <link rel="stylesheet" href="../../header.css">
 </head>
 
 <body>
     <header>
-        <h2 id="logo"><a id="home" href="../mian-page/main-page.php">ServeConnect</a></h2>
+        <h2 id="logo"><a id="home" href="./main-page.php">ServeConnect</a></h2>
         <svg id="company_logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 75" x="0px" y="0px"><a id="home" href="#">
                 <title>UXUI (NOUNPROJECT)</title>
                 <path d="M30,25a6.994,6.994,0,1,1,3.90918-1.19043A6.95021,6.95021,0,0,1,30,25Zm0-12a5.00143,5.00143,0,0,0-2.79,9.15137,5.08852,5.08852,0,0,0,5.5791.001A5.00163,5.00163,0,0,0,30,13Z" fill="white" stroke="white" stroke-width="0.2" />
@@ -37,44 +36,66 @@ $sql = $con->query($query);
     </header>
     <nav class="navbar">
         <ul><b>
-                <li><a onclick="manageActivity('<?php echo $isAdmin ?>')">Manage</a></li>
+                <li><a onclick='manageActivity("<?php echo $isAdmin ?>")'>Manage</a></li>
                 <li><a href="../create-activity/create-activity.php">Create</a></li>
                 <li><a href="../activitiy-list/activity-list.php">Activities</a></li>
         </ul></b>
     </nav>
+    </div>
     <main>
-        <script src="./activity-list.js"></script>
-        <u>Activities List</u></u>
+        <div class="gallery-container">
+            <div>
+                <svg id='backButton' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"></path>
+                </svg>
+            </div>
+            <div id="gallery">
+                <img src="../../pic/OIP (1).jpg" alt="">
+                <img src="../../pic/Why Community Service is Essential for a High Schooler (1).webp" alt="">
+                <img src="../../pic/why-is-community-service-important.webp" alt="">
+
+                <img src="../../pic/135538151-56a93a6e5f9b58b7d0f96fed.jpg" alt="">
+                <img src="../../pic/OIP (2).jpg" alt="">
+                <img src="../../pic/iStock-626891236-scaled.webp" alt="">
+
+            </div>
+            <div>
+                <svg id='nextButton' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"></path>
+                </svg>
+            </div>
+        </div>
+        <script src="main-page.js"></script>
+        <div id="create-container">
+            <h1>Come out with an idea?</h1>
+            <button>Organized an activity now</button>
+        </div>
+    </main>
+    <h1 style="margin:20px 50px;">What New</h1>
+    <div id="events">
         <?php
         if ($sql) {
             while ($row = $sql->fetch_assoc()) {
                 $activity_id = $row['Activity_ID'];
                 $name = $row['Title'];
                 $date = $row['Date'];
-                $time = trim($row['Time']);
-
-                $format = DateTime::createFromFormat('H:i', $time);
-                $formatTime = $format->format('h:i A');
-
-
+                $time = $row['Time'];
                 $location = $row['Location'];
                 $picture = base64_encode($row['Thumbnail']);
 
-                if ($row['Status'] === 'Approved') {
-                    echo
-                    "
-                    <div class='event-container' onclick='showDetail(\"$activity_id\")'>
-                        <div>
-                            <img src='data:image/*;base64,$picture' alt=''/>
-                        </div>
-                        <div>
-                            <h1>$name</h1>
-                            <p>$date  $formatTime</p>
-                            <p>$location</p>
-                        </div>
+                echo
+                "
+                <div class='event-container' onclick='showDetail(\"$activity_id\")'>
+                <div>
+                    <img src='data:image/*;base64,$picture' alt='' />
+                </div>
+                    <div>
+                        <h1>$name</h1>
+                        <p>$date  $time</p>
+                        <p>$location</p>
                     </div>
-                    ";
-                }
+                </div>
+                ";
             }
         }
         ?>
@@ -90,51 +111,40 @@ $sql = $con->query($query);
             $title = $row['Title'];
             $organizer = $row['Name'];
             $date = $row['Date'];
-            $time = trim($row['Time']);
+            $time = $row['Time'];
             $duration = $row['Duration'];
             $location = $row['Location'];
             $description = $row['Description'];
             $picture = base64_encode($row['Thumbnail']);
 
-            $format = DateTime::createFromFormat('H:i', $time);
-            $formatTime = $format->format('h:i A');
-
 
 
             echo
             "
-           
-                <div class='event-detail' id='event-detail'>
-                    <img src='data:image/*;base64,$picture' alt=''/>
-                    <div>
-                        <form method='post'>
-                            <h1>$title</h1>
-                            <p>Organized by <strong>$organizer</strong></p>
+   
+        <div class='event-detail' id='event-detail'>
+            <img src='data:image/*;base64,$picture' alt=''/>
+            <div>
+                <form method='post'>
+                    <h1>$title</h1>
+                    <p>Organized by <strong>$organizer</strong></p>
 
-                            <h2>Date :</h2>
-                            <p>$date</p>
+                    <h2>Date :</h2>
+                    <p>$date</p>
 
-                            <h2>Time :</h2>
-                            <p>$formatTime</p>
+                    <h2>Time :</h2>
+                    <p>$time</p>
 
-                            <h2>Activity Duration :</h2>
-                            <p>$duration hours</p>
+                    <h2>Activity Duration :</h2>
+                    <p>$duration hours</p>
 
-                            <h2>Activity Description :</h2>
-                            <p>$description</p>
+                    <h2>Activity Description :</h2>
+                    <p>$description</p>
 
-                            <button type=submit class'join-button' name='join'>Join Event</button>
-                            
-                        </form>
-                    </div>
-                </div>            
-            ";
-        }
-        ?>
+                </form>
+                </div>
+            </div>";
 
-        <?php
-
-        if (isset($_GET['id'])) {
             echo '<div class="participant-list">';
             echo "<h1>Participant List</h1>";
             $query = "SELECT * FROM activity_participants ap join user on ap.User_ID = user.User_ID  where Activity_ID = $id";
@@ -143,8 +153,8 @@ $sql = $con->query($query);
             if ($sql) {
                 while ($row = $sql->fetch_assoc()) {
                     $participant_name = $row['Name'];
-                    $profile = base64_encode($row['Profile_Picture']);
                     $participant_id = $row['User_ID'];
+                    $profile = base64_encode($row['Profile_Picture']);
 
                     echo
                     "
@@ -156,7 +166,7 @@ $sql = $con->query($query);
                 }
             }
             echo
-            "   
+            "
             </div>
             </div> 
             <script>
@@ -166,30 +176,8 @@ $sql = $con->query($query);
             ";
         }
         ?>
-    </main>
+    </div>
+
 </body>
 
 </html>
-<?php
-if (isset($_POST['join'])) {
-    try {
-        $query = "INSERT INTO activity_participants(Activity_ID , User_ID) VALUES($id , $user_id)";
-        $sql = $con->query($query);
-
-        if ($sql) {
-            echo "
-            <script>
-                alert('Joinned Activity');
-                window.location.href = './activity-list.php';
-            </script>";
-        }
-    } catch (Exception $e) {
-        echo "
-            <script>
-                alert('You already in the activity !!');
-                window.location.href = './activity-list.php';
-            </script>";
-    }
-}
-
-?>

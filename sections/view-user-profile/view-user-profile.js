@@ -1,6 +1,7 @@
-function showDetail(activity_id) {
-    window.location.href = "../activitiy-list/activity-list.php?id=" + activity_id;
+function showDetail(user_id, activity_id) {
+    window.location.href = "./view-user-profile.php?user_id=" + user_id + "&id=" + activity_id;
 }
+
 
 function isInViewport(element) {
     const rect = element.getBoundingClientRect();
@@ -30,7 +31,6 @@ function removeBlur() {
         document.addEventListener('click', (event) => {
 
             const target = event.target;
-            console.log(target != detail)
             if (target != detail) {
                 detail.classList.add('gone')
                 participant.classList.add('gone')
@@ -50,8 +50,3 @@ function manageActivity(isAdmin) {
         window.location.href = '../manage-activity/manage-activity.php'
     }
 }
-
-
-
-
-

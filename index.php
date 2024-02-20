@@ -1,7 +1,6 @@
 <?php
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-include("../../php/db_connection.php");
+session_start();
+include("./php/db_connection.php");
 
 if (isset($_POST['register'])) {
     try {
@@ -47,19 +46,33 @@ if (isset($_POST['login'])) {
 
         if (!$row) {
             echo "
-            <div class = 'errorMsg animation'>User Not Found</div>
+            <script>
+            alert('User Not Found');
+            window.location.href='./index.php'
+            </script>
             ";
             exit();
         }
         if ($row['Password'] !== $password) {
             echo
-            " <div div class = 'errorMsg animation' >Incorrect Password</div>";
+            " <script>
+            alert('Incorrect');
+            window.location.href='./index.php'
+            </script>";
             exit();
         }
+        $role = trim($row['isAdmin']);
+        if ($role === 'yes') {
+            $_SESSION['admin'] = "yes";
+        } else {
+            $_SESSION['admin'] = "no";
+        }
+        $_SESSION['id'] = $row['User_ID'];
+
         echo  "
         <script>
         alert('Welcome');  
-        window.location.href = '../main-page/main-page.html'                             
+        window.location.href = './sections/mian-page/main-page.php'                             
     </script>";
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -72,7 +85,7 @@ if (isset($_POST['login'])) {
 
 <head>
     <title>Register Form</title>
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -148,7 +161,6 @@ if (isset($_POST['login'])) {
                                     <textarea class="form-input" style="resize:none;height:70px;padding-top:10px;" name="description" id="description" required></textarea>
                                     <div class="underline" style="top:65px;left:-340px"></div>
                                     <label class="form-label" style='top:-20px' for="descripton">Introduce About Yourself</label>
-
                                 </div>
                             </div>
 
@@ -198,7 +210,7 @@ if (isset($_POST['login'])) {
         </div>
 
     </main>
-    <script src="register.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>

@@ -2,9 +2,9 @@
 
 include("../../php/db_connection.php");
 session_start();
-$user_id = $_SESSION['id'];
 $isAdmin = $_SESSION['admin'];
-$query = "SELECT * FROM activity join user on Organizer_ID = user.User_ID where Organizer_ID != '$user_id'";
+$user_id = $_SESSION['id'];
+$query = "SELECT * FROM activity join user on Organizer_ID = user.User_ID where Organizer_ID = '$user_id'";
 $sql = $con->query($query);
 ?>
 
@@ -15,7 +15,7 @@ $sql = $con->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="activity-list.css">
+    <link rel="stylesheet" href="manage-activity.css">
     <link rel="stylesheet" href="../../header.css">
 </head>
 
@@ -37,14 +37,14 @@ $sql = $con->query($query);
     </header>
     <nav class="navbar">
         <ul><b>
-                <li><a onclick="manageActivity('<?php echo $isAdmin ?>')">Manage</a></li>
+                <li><a onclick='manageActivity("<?php echo $isAdmin ?>")'>Manage</a></li>
                 <li><a href="../create-activity/create-activity.php">Create</a></li>
                 <li><a href="../activitiy-list/activity-list.php">Activities</a></li>
         </ul></b>
     </nav>
     <main>
-        <script src="./activity-list.js"></script>
-        <u>Activities List</u></u>
+        <script src="manage-activity.js"></script>
+        <u>Manage Activities</u>
         <?php
         if ($sql) {
             while ($row = $sql->fetch_assoc()) {
@@ -60,21 +60,20 @@ $sql = $con->query($query);
                 $location = $row['Location'];
                 $picture = base64_encode($row['Thumbnail']);
 
-                if ($row['Status'] === 'Approved') {
-                    echo
-                    "
-                    <div class='event-container' onclick='showDetail(\"$activity_id\")'>
-                        <div>
-                            <img src='data:image/*;base64,$picture' alt=''/>
-                        </div>
-                        <div>
-                            <h1>$name</h1>
-                            <p>$date  $formatTime</p>
-                            <p>$location</p>
-                        </div>
+
+                echo
+                "
+                <div class='event-container' onclick='showDetail(\"$activity_id\")'>
+                    <div>
+                        <img src='data:image/*;base64,$picture' alt=''/>
                     </div>
-                    ";
-                }
+                    <div>
+                        <h1>$name</h1>
+                        <p>$date  $formatTime</p>
+                        <p>$location</p>
+                    </div>
+                </div>
+                ";
             }
         }
         ?>
@@ -103,29 +102,25 @@ $sql = $con->query($query);
 
             echo
             "
-           
                 <div class='event-detail' id='event-detail'>
                     <img src='data:image/*;base64,$picture' alt=''/>
                     <div>
-                        <form method='post'>
-                            <h1>$title</h1>
-                            <p>Organized by <strong>$organizer</strong></p>
+                        <h1>$title</h1>
+                        <p>Organized by <strong>$organizer</strong></p>
 
-                            <h2>Date :</h2>
-                            <p>$date</p>
+                        <h2>Date :</h2>
+                        <p>$date</p>
 
-                            <h2>Time :</h2>
-                            <p>$formatTime</p>
+                        <h2>Time :</h2>
+                        <p>$formatTime</p>
 
-                            <h2>Activity Duration :</h2>
-                            <p>$duration hours</p>
+                        <h2>Activity Duration :</h2>
+                        <p>$duration hours</p>
 
-                            <h2>Activity Description :</h2>
-                            <p>$description</p>
+                        <h2>Activity Description :</h2>
+                        <p>$description</p>
 
-                            <button type=submit class'join-button' name='join'>Join Event</button>
-                            
-                        </form>
+                        <button onclick='editActivity(\"$activity_id\")' class'edit-button' name='edit'>Edit</button>
                     </div>
                 </div>            
             ";
@@ -143,8 +138,8 @@ $sql = $con->query($query);
             if ($sql) {
                 while ($row = $sql->fetch_assoc()) {
                     $participant_name = $row['Name'];
-                    $profile = base64_encode($row['Profile_Picture']);
                     $participant_id = $row['User_ID'];
+                    $profile = base64_encode($row['Profile_Picture']);
 
                     echo
                     "
@@ -170,26 +165,3 @@ $sql = $con->query($query);
 </body>
 
 </html>
-<?php
-if (isset($_POST['join'])) {
-    try {
-        $query = "INSERT INTO activity_participants(Activity_ID , User_ID) VALUES($id , $user_id)";
-        $sql = $con->query($query);
-
-        if ($sql) {
-            echo "
-            <script>
-                alert('Joinned Activity');
-                window.location.href = './activity-list.php';
-            </script>";
-        }
-    } catch (Exception $e) {
-        echo "
-            <script>
-                alert('You already in the activity !!');
-                window.location.href = './activity-list.php';
-            </script>";
-    }
-}
-
-?>

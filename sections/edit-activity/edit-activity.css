@@ -145,8 +145,7 @@ p,
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    opacity: 0.6;
-    transition: all 0.3s ease;
+    opacity: 1;
     position: relative;
 
 }
@@ -158,18 +157,8 @@ p,
     cursor: pointer;
 }
 
-#msg {
 
-    position: absolute;
-    left: 450px;
-    line-height: 400px;
-    font-size: x-large;
-    color: gray;
-}
 
-#preview:hover {
-    opacity: 1;
-}
 
 #preview label {
     position: absolute;

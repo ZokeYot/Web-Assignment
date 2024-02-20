@@ -1,5 +1,5 @@
 function showDetail(activity_id) {
-    window.location.href = "../activitiy-list/activity-list.php?id=" + activity_id;
+    window.location.href = "./user-profile.php?id=" + activity_id;
 }
 
 function isInViewport(element) {
@@ -43,6 +43,22 @@ function removeBlur() {
     }
 }
 
+function logout() {
+    const logoutButton = document.querySelector('.logout');
+    logoutButton.classList.remove('gone');
+    logoutButton.classList.add('reminder')
+    document.getElementById('logout-yes').addEventListener('click', () => {
+        window.location.href = '../../php/logout.php';
+    })
+
+    document.getElementById('logout-no').addEventListener('click', () => {
+        logoutButton.classList.remove('reminder');
+        logoutButton.classList.add('gone');
+
+    })
+}
+
+
 function manageActivity(isAdmin) {
     if (isAdmin === "yes") {
         window.location.href = '../admin-manage-activity/admin-manage-activity.php'
@@ -50,8 +66,3 @@ function manageActivity(isAdmin) {
         window.location.href = '../manage-activity/manage-activity.php'
     }
 }
-
-
-
-
-

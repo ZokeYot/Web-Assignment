@@ -3,40 +3,19 @@ $error = false;
 session_start();
 include('../../php/db_connection.php');
 $isAdmin = $_SESSION['admin'];
-if (isset($_POST['create-activity'])) {
-    try {
+$activity_id = $_GET['id'];
+$query = "SELECT * FROM activity where Activity_ID = $activity_id";
+$sql = $con->query($query);
+$row = $sql->fetch_assoc();
 
+$title = $row['Title'];
+$date = $row['Date'];
+$time = $row["Time"];
+$duration = $row['Duration'];
+$location = $row['Location'];
+$description = $row['Description'];
+$picture = base64_encode($row['Thumbnail']);
 
-        $organizer_id = $_SESSION['id'];
-        $title = $_POST['title'];
-        $date = $_POST['date'];
-        $time = $_POST['time'];
-        $duration = $_POST['duration'];
-        $location = $_POST['location'];
-        $description = $_POST['description'];
-        $thumbnail = file_get_contents($_FILES['thumbnail']['tmp_name']);
-
-        $query = "INSERT INTO activity(Organizer_ID , Title , Date , Time , Duration , Location , Description , Thumbnail , Status )
-                    VALUES ('$organizer_id' , '$title' , '$date' , '$time' , '$duration' , '$location' , '$description' , ? , 'Waiting')";
-
-        $sql = mysqli_prepare($con, $query);
-        $sql->bind_param('s', $thumbnail);
-        $sql->execute();
-        $result = $sql->affected_rows;
-
-        if ($result == 1) {
-            echo "<script>
-            alert('Activity Created Successfully');
-            window.location.href = '../mian-page/main-page.php'
-                </script>";
-        } else {
-            throw new Exception('Create Activity Faield');
-        }
-    } catch (Exception $e) {
-        $error = true;
-        $messagesHtml = "<div class='error-messages'>" . $e->getMessage() . "</div>";
-    }
-}
 
 ?>
 <!DOCTYPE html>
@@ -46,7 +25,7 @@ if (isset($_POST['create-activity'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./create-activity.css">
+    <link rel="stylesheet" href="./edit-activity.css">
 </head>
 
 <body>
@@ -67,20 +46,19 @@ if (isset($_POST['create-activity'])) {
     </header>
     <nav class="navbar">
         <ul><b>
-                <li><a onclick="manageActivity('<?php echo $isAdmin ?>')">Manage</a></li>
-                <li><a href="./create-activity.php">Create</a></li>
-                <li><a href="../activitiy-list/activity-list.php">Activities</a></li>
+                <li><a onclick='manageActivity("<?php echo $isAdmin ?>")'>Manage</a></li>
+                <li><a href="../create-activity/create-activity.php">Create</a></li>
+                <li><a href="../activitiy-list/activitiy-list.php">Activities</a></li>
         </ul></b>
     </nav>
-    <script src="./create-activity.js"></script>
+    <script src="./edit-activity.js"></script>
     <main>
         <div class="form-container">
             <form method="post" enctype="multipart/form-data">
-                <h1 id="form-title">Create Activity</h1>
+                <h1 id="form-title">Edit Activity</h1>
 
-                <div id="preview">
+                <div id="preview" style="background-image: url('data:image/*;base64,<?php echo $picture  ?>');">
                     <label id="file-label" for="file">Upload Thumbnail</label>
-                    <p id=msg>Upload Thumbnail</p>
                     <input accept='image/*' id='file' name='thumbnail' type="file" placeholder="Upload Thumnail" multiple>
                     <script>
                         updatePreview()
@@ -90,7 +68,7 @@ if (isset($_POST['create-activity'])) {
 
                 <div class="form-row">
                     <div class="form-group">
-                        <input class="form-input" type="text" name="title" id="title" required>
+                        <input class="form-input" type="text" name="title" id="title" value=<?php echo $title ?> required>
                         <label class="form-label" for="title">Activity Title</label>
                         <div class="underline"></div>
                     </div>
@@ -100,26 +78,26 @@ if (isset($_POST['create-activity'])) {
                     <div class="dateTime">
                         <div class="form-group">
                             <label for="date">Date</label>
-                            <input class="form-input" type="date" name="date" id="date" required>
+                            <input class="form-input" type="date" name="date" id="date" value=<?php echo $date ?> required>
                             <div class="underline"></div>
                         </div>
                         <div class="form-group">
                             <label for="time">Time</label>
-                            <input class="form-input" type="time" name="time" id="time" required>
+                            <input class="form-input" type="time" name="time" id="time" value=<?php echo $time ?> required>
                             <div class="underline"></div>
                         </div>
                     </div>
 
                     <div class="range">
                         <label for="duration">Duration</label>
-                        <input type="range" min=0 max=30 name="duration" id="duration" oninput="updateTextInput(this.value)" required>
-                        <input type="number" class='textInput' id="textInput" oninput="updateRangeInput(this.value)" onchange="onchanges()"> Hours
+                        <input type="range" min=0 max=30 name="duration" id="duration" oninput="updateTextInput(this.value)" value=<?php echo $duration ?> required>
+                        <input type="number" class='textInput' id="textInput" oninput="updateRangeInput(this.value)" value=<?php echo $duration ?> onchange="onchanges()"> Hours
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <textarea class="form-input" type="text" name="location" id="location" required></textarea>
+                        <textarea class="form-input" type="text" name="location" id="location" required><?php echo $location ?></textarea>
                         <label class="form-label" for="location">Activit Location</label>
                         <div class="underline" style="top:80px"></div>
                     </div>
@@ -127,26 +105,59 @@ if (isset($_POST['create-activity'])) {
 
                 <div class="form-row">
                     <div class="form-group">
-                        <textarea class="form-input" type="text" name="description" id="description" required></textarea>
+                        <textarea class="form-input" type="text" name="description" id="description" required><?php echo $description ?></textarea>
                         <label class="form-label" for="description">Activit Description</label>
                         <div class="underline" style="top:80px"></div>
                     </div>
                 </div>
 
                 <div style="display: flex;justify-content:end">
-                    <button name="create-activity" style="padding:10px;margin-right: 10px;border-radius:20px;">Create Activity</button>
+                    <button name="update-activity" style="padding:10px;margin-right: 10px;border-radius:20px;">Update Activity</button>
                 </div>
-
         </div>
         </form>
-
-        <div>
-            <?php if ($error) {
-                echo  $messagesHtml;
-            } ?>
-        </div>
         </div>
     </main>
 </body>
 
 </html>
+<?php
+if (isset($_POST['update-activity'])) {
+
+    $title = $_POST['title'];
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    $duration = $_POST['duration'];
+    $location = $_POST['location'];
+    $description = $_POST['description'];
+    $thumbnail = 0;
+
+    if (isset($_FILES['thumbnail']['name']) && $_FILES['thumbnail']['name'] != '') {
+        $thumbnail = file_get_contents($_FILES['thumbnail']['tmp_name']);
+    } else {
+        $thumbnail = $row['Thumbnail'];
+    }
+
+
+
+    $query = "UPDATE activity SET Title = '$title', Date = '$date', Time = '$time', 
+        Duration = $duration, Location = '$location' , Description= '$description' , Thumbnail = ? WHERE Activity_ID = $activity_id";
+
+    $sql = mysqli_prepare($con, $query);
+    $sql->bind_param('s', $thumbnail);
+    $sql->execute();
+
+    if ($sql) {
+        echo
+        "<script>
+            alert('Update Successfully');
+        </script>";
+    } else {
+        echo
+        "<script>
+            alert('Update Failed');
+        </script>";
+    }
+    echo "<script>window.location.href = '../manage-activity/manage-activity.php'</script>";
+}
+?>

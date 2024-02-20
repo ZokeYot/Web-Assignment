@@ -1,5 +1,8 @@
 function showDetail(activity_id) {
-    window.location.href = "../activitiy-list/activity-list.php?id=" + activity_id;
+    window.location.href = "../manage-activity/manage-activity.php?id=" + activity_id;
+}
+function editActivity(activity_id) {
+    window.location.href = "../edit-activity/edit-activity.php?id=" + activity_id;
 }
 
 function isInViewport(element) {
@@ -30,7 +33,6 @@ function removeBlur() {
         document.addEventListener('click', (event) => {
 
             const target = event.target;
-            console.log(target != detail)
             if (target != detail) {
                 detail.classList.add('gone')
                 participant.classList.add('gone')
